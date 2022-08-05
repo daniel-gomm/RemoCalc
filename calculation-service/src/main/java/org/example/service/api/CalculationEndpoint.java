@@ -5,6 +5,8 @@ import org.example.calculator.CalculateResultRequest;
 import org.example.calculator.CalculateResultResponse;
 import org.example.calculator.Operations;
 import org.example.calculator.parsing.MalformedTermException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
@@ -14,6 +16,8 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 public class CalculationEndpoint {
 
     private final String NAMESPACE_URI = "http://example.org/calculator";
+
+    private final static Logger logger = LoggerFactory.getLogger(CalculationEndpoint.class);
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "calculateResultRequest")
     @ResponsePayload
@@ -29,6 +33,7 @@ public class CalculationEndpoint {
         } catch (MalformedTermException e) {
             response.setStatus(500);
             response.setStatusMessage(e.getMessage());
+            logger.error(e.getMessage());
         }
 
         return response;
