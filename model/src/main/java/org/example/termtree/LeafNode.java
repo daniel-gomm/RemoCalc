@@ -1,5 +1,13 @@
 package org.example.termtree;
 
-public record LeafNode(double value) implements Node {
+public final class LeafNode implements Node {
+    private final double value;
 
+    public LeafNode(double value) {
+        this.value = value;
+    }
+
+    public double value() {
+        return value;
+    }
 }

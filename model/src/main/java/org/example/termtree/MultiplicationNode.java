@@ -2,7 +2,7 @@ package org.example.termtree;
 
 public class MultiplicationNode extends CalculationNode {
 
-    public MultiplicationNode(Node rightChild, Node leftChild) {
+    public MultiplicationNode(Node leftChild, Node rightChild) {
         this.setRightChild(rightChild);
         this.setLeftChild(leftChild);
     }

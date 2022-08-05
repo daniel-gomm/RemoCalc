@@ -2,7 +2,7 @@ package org.example.termtree;
 
 public class SubstractionNode extends CalculationNode{
 
-    public SubstractionNode(Node rightChild, Node leftChild) {
+    public SubstractionNode(Node leftChild, Node rightChild) {
         this.setRightChild(rightChild);
         this.setLeftChild(leftChild);
     }

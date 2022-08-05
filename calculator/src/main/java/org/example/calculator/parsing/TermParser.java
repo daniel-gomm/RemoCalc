@@ -3,6 +3,7 @@ package org.example.calculator.parsing;
 import org.example.termtree.*;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class TermParser {
 
@@ -40,15 +41,20 @@ public class TermParser {
 
         operatorToSplitAt = firstAdditiveOperator.orElseGet(operatorsQueue::peek);
 
-        String[] subterms = term.split(String.valueOf(operatorToSplitAt), 1);
+        String[] subterms = term.split(getOperatorCharacterStringValue(operatorToSplitAt), 2);
 
-        return switch (operatorToSplitAt) {
-            case '+' -> new AdditionNode(parseTerm(subterms[0]), parseTerm(subterms[1]));
-            case '-' -> new SubstractionNode(parseTerm(subterms[0]), parseTerm(subterms[1]));
-            case '*' -> new MultiplicationNode(parseTerm(subterms[0]), parseTerm(subterms[1]));
-            case '/' -> new DivisionNode(parseTerm(subterms[0]), parseTerm(subterms[1]));
-            default -> throw new RuntimeException("Failed to split at operator " + operatorToSplitAt);
-        };
+        switch (operatorToSplitAt){
+            case '+':
+                return new AdditionNode(parseTerm(subterms[0]), parseTerm(subterms[1]));
+            case '-':
+                return new SubstractionNode(parseTerm(subterms[0]), parseTerm(subterms[1]));
+            case '*':
+                return new MultiplicationNode(parseTerm(subterms[0]), parseTerm(subterms[1]));
+            case '/':
+                return new DivisionNode(parseTerm(subterms[0]), parseTerm(subterms[1]));
+            default:
+                throw new RuntimeException("Failed to split at operator " + operatorToSplitAt);
+        }
     }
 
     private void validateBracketsInTerm() throws MalformedTermException{
@@ -70,6 +76,21 @@ public class TermParser {
         for(char character:term.toCharArray()){
             if(!LEGAL_CHAR_SET.contains(character))
                 throw new MalformedTermException("The input term includes the illegal character " + character);
+        }
+    }
+
+    private String getOperatorCharacterStringValue(Character operatorCharacter){
+        switch (operatorCharacter){
+            case '*':
+                return "\\*";
+            case '-':
+                return "\\-";
+            case '+':
+                return "\\+";
+            case '/':
+                return "\\/";
+            default:
+                throw new RuntimeException("Failed to get corresponding ");
         }
     }
 
