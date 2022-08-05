@@ -5,9 +5,18 @@ This remote calculator provides a calculator accessible as a SOAP web service. T
 calculation-service. It is accompanied by a cli-client that can be used to interact with the calculation-service.
 To get started, you have to first build the project, then deploy the web-service before you can use the cli-client.
 ### Capabilities
-The calculator can handle calculations involving the following mathematical operators: +, -, *, /\
+The calculator can handle calculations involving the following mathematical operators: 
+```
++-*\
+```
 Decimal numbers are expressed with a dot.\
 It is possible to chain an arbitrary number of calculations, e.g.: 500+3*-29+400/-3*5+6000
+### Tested environment
+All the provided instructions and the application were tested on a machine running GNU/Linux with the following software versions:\
+java 11
+maven 3.8.6
+docker 20.10.17
+
 
 ## How to build the project
 The project is build via maven. To build the server-side project run the following command from the projects
