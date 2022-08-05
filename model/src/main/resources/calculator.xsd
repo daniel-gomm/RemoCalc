@@ -13,6 +13,7 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="status" type="xs:int"/>
+                <xs:element name="statusMessage" type="xs:string"/>
                 <xs:element name="result" type="xs:double"/>
             </xs:sequence>
         </xs:complexType>
