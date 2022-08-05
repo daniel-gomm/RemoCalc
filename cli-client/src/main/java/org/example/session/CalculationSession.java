@@ -37,12 +37,16 @@ public class CalculationSession {
     }
 
     public void handleCalculation(String term){
-        CalculateResultResponse response = calculatorClient.calculateResult(term);
-        if(response.getStatus() != 200)
-            System.out.println("An exception occurred while requesting the result for the provided term:\n"
-                    + response.getStatusMessage());
-        else
-            System.out.println("Result: " + response.getResult());
+        try {
+            CalculateResultResponse response = calculatorClient.calculateResult(term);
+            if(response.getStatus() != 200)
+                System.out.println("An exception occurred while requesting the result for the provided term:\n"
+                        + response.getStatusMessage());
+            else
+                System.out.println("Result: " + response.getResult());
+        } catch (Exception e){
+            System.out.println("There was an unexpected error. Please check if your input is correct and try again.");
+        }
     }
 
 }
