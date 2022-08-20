@@ -1,6 +1,7 @@
 package org.example.session;
 
 import org.example.cliclient.wsdl.CalculateResultResponse;
+import org.example.cliclient.wsdl.GetLatestCalculationsResponse;
 import org.example.gateway.CalculatorClient;
 
 import java.io.BufferedReader;
@@ -19,24 +20,28 @@ public class CalculationSession {
         System.out.println("This is a live calculation session. Please input your calculation. You can use the following" +
                 " operators and symbols for your calculation: \"+-*/\"\nTo exit this session enter \"exit\" as argument");
 
-        boolean sessionRunning = true;
-
         BufferedReader stdInReader = new BufferedReader(new InputStreamReader(System.in));
-        while (sessionRunning){
-            String input;
-            try{
+        String input;
+        try {
+            do{
                 input = stdInReader.readLine();
-                if(input.equals("exit"))
-                    sessionRunning = false;
-                else
-                    handleCalculation(input);
-            } catch (IOException ioException) {
-                System.out.println(ioException);
-            }
+            }while (handleInput(input));
+        } catch (IOException ioException) {
+            System.out.println(ioException.getMessage());
         }
     }
 
-    public void handleCalculation(String term){
+    public boolean handleInput(String input){
+        if(input.equals("exit"))
+            return false;
+        if(input.startsWith("history"))
+            handleHistoryRequest(input);
+        else
+            handleCalculation(input);
+        return true;
+    }
+
+    private void handleCalculation(String term){
         try {
             CalculateResultResponse response = calculatorClient.calculateResult(term);
             if(response.getStatus() != 200)
@@ -45,6 +50,21 @@ public class CalculationSession {
             else
                 System.out.println("Result: " + response.getResult());
         } catch (Exception e){
+            System.out.println("There was an unexpected error. Please check if your input is correct and try again.");
+        }
+    }
+
+    private void handleHistoryRequest(String input){
+        String[] splitArgs= input.split(" ");
+        if(splitArgs.length != 2){
+            System.out.println("Please provide an appropriate argument for the history command!");
+            return;
+        }
+        int historySize = Integer.parseInt(splitArgs[1]);
+        try {
+            GetLatestCalculationsResponse response = calculatorClient.getLatestCalculations(historySize);
+            System.out.println("History:\n" + response.getResult().substring(0, response.getResult().length()-1));
+        }catch (Exception e){
             System.out.println("There was an unexpected error. Please check if your input is correct and try again.");
         }
     }

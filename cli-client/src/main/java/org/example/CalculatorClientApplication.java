@@ -25,7 +25,7 @@ public class CalculatorClientApplication {
             if(args.length == 0)
                 calculationSession.runCalculationSession();
             else
-                calculationSession.handleCalculation(args[0]);
+                calculationSession.handleInput(args[0]);
         };
     }
 
