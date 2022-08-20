@@ -4,6 +4,11 @@
 This remote calculator provides a calculator accessible as a SOAP web service. The web-service is referred to as
 calculation-service. It is accompanied by a cli-client that can be used to interact with the calculation-service.
 To get started, you have to first build the project, then deploy the web-service before you can use the cli-client.
+### Assumptions
+To better understand the design choices I made I am going to give a rough outline of the most important assumptions I made:\
+1. The web service should be easily accessible to developers that do not know anything about the exact implementation (-> well known protocol is needed)
+2. Calculations can are not limited to one mathematical operator per calculation, rather they can be arbitrarily long/complex
+3. The calculator is used for calculations that are depictable with values of the double datatype.
 ### Capabilities
 The calculator can handle calculations involving the following mathematical operators: 
 ```
